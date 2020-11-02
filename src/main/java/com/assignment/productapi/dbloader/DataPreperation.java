@@ -6,10 +6,9 @@ import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import java.io.IOException;
-import java.io.Reader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,14 +60,16 @@ public class DataPreperation {
         ColumnPositionMappingStrategy ms = new ColumnPositionMappingStrategy();
         ms.setType(ProductData.class);
 
-        Reader reader = Files.newBufferedReader(Paths.get("src/main/resources/data/data.csv"));
-        CsvToBean cb = new CsvToBeanBuilder<ProductData>(reader)
+        InputStream inputStream = getClass().getResourceAsStream("/data/data.csv");
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+
+        CsvToBean cb = new CsvToBeanBuilder<ProductData>(inputStreamReader)
                 .withType(ProductData.class)
                 .withMappingStrategy(ms)
                 .build();
 
         List<ProductData> parse = cb.parse();
-        reader.close();
+        inputStreamReader.close();
         return parse;
     }
 }
