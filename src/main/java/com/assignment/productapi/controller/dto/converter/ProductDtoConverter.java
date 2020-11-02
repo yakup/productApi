@@ -2,11 +2,13 @@ package com.assignment.productapi.controller.dto.converter;
 
 import com.assignment.productapi.controller.dto.ProductDto;
 import com.assignment.productapi.model.Product;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.util.StringUtils;
 
 public class ProductDtoConverter {
 
-    public ProductDto productDto(Product product) {
+    public static ProductDto productDto(Product product) {
         ProductDto dto = new ProductDto();
         dto.setType(product.getType());
         dto.setPrice(product.getPrice());
@@ -19,5 +21,14 @@ public class ProductDtoConverter {
         }
 
         return dto;
+    }
+
+    public static List<ProductDto> convertProductDtoList(List<Product> products) {
+        List<ProductDto> productDtoList = new ArrayList<>();
+        for (Product product : products) {
+            productDtoList.add(productDto(product));
+        }
+
+        return productDtoList;
     }
 }

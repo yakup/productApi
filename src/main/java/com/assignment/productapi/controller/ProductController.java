@@ -23,7 +23,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> getProducts(@RequestParam(required = false) String type,
+    public ResponseEntity getProducts(@RequestParam(required = false) String type,
                                               @RequestParam(required = false) String city,
                                               @RequestParam(name = "min_price", required = false) Integer minPrice,
                                               @RequestParam(name = "max_price", required = false) Integer maxPrice,
@@ -40,15 +40,6 @@ public class ProductController {
         if (products.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
 
-        return ResponseEntity.ok(convertProductDtoList(products));
-    }
-
-    private List<ProductDto> convertProductDtoList(List<Product> products) {
-        List<ProductDto> productDtoList = new ArrayList<>();
-        for (Product product : products) {
-            productDtoList.add(new ProductDtoConverter().productDto(product));
-        }
-
-        return productDtoList;
+        return ResponseEntity.ok(ProductDtoConverter.convertProductDtoList(products));
     }
 }
