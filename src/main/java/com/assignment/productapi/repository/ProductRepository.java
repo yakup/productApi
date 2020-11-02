@@ -4,7 +4,6 @@ import com.assignment.productapi.model.Product;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -16,8 +15,11 @@ import org.springframework.util.StringUtils;
 @Transactional
 @Repository
 public class ProductRepository {
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
+
+    public ProductRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     public List<Product> findProducts(String type, String city, Integer minPrice, Integer maxPrice, String color, Integer gbLimitMin, Integer gbLimitMax) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
