@@ -61,7 +61,7 @@ public class DataPreperation {
         ColumnPositionMappingStrategy ms = new ColumnPositionMappingStrategy();
         ms.setType(ProductData.class);
 
-        Reader reader = Files.newBufferedReader(Paths.get(ClassLoader.getSystemResource("data/data.csv").toURI()));
+        Reader reader = Files.newBufferedReader(Paths.get("src/main/resources/data/data.csv"));
         CsvToBean cb = new CsvToBeanBuilder<ProductData>(reader)
                 .withType(ProductData.class)
                 .withMappingStrategy(ms)
