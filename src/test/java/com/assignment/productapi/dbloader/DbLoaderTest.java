@@ -9,22 +9,21 @@ import com.assignment.productapi.repository.ProductRepository;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 
-@SpringBootTest
+@SpringBootTest(properties = {"spring.profiles.active=prod"})
 public class DbLoaderTest {
 
     @MockBean
     private ProductRepository productRepository;
 
-    @Autowired
-    private DataPreperation dataPreperation;
+    @SpyBean
+    private DataPreparation dataPreparation;
 
     @Test
     public void testDataParse() throws IOException, URISyntaxException {
-        dataPreperation.insertCSVDataIntoDB();
         verify(productRepository, times(3)).save(any(Product.class));
     }
 }

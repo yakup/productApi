@@ -11,27 +11,19 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DataPreperation {
+@Profile("!test")
+public class DataPreparation {
     private final ProductRepository productRepository;
 
-    public DataPreperation(ProductRepository productRepository) {
+    public DataPreparation(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-    @Value("${spring.profiles.active}")
-    private String profile;
-
     @PostConstruct
-    public void postConstruct() throws IOException, URISyntaxException {
-        if (!"test".equals(profile)) {
-            insertCSVDataIntoDB();
-        }
-    }
-
     public void insertCSVDataIntoDB() throws IOException, URISyntaxException {
         List<ProductData> productDataList = getProductData();
 
